@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Applicant Details Form with PDF Parsing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.js"></script>
+    <script src="form-validation.js"></script>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Applicant Details</h1>
+
+        <!-- First Name -->
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <!-- Last Name -->
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <!-- Age -->
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <!-- Gender -->
+        <label for="gender">Gender:</label>
+        <input type="radio" id="male" name="gender" value="Male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female">
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="Other">
+        <label for="other">Other</label><br><br>
+
+        <!-- Highest Education -->
+        <label for="education">Highest Education:</label>
+        <select id="education" name="education">
+            <option value="High School">High School</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Master's Degree">Master's Degree</option>
+            <option value="Ph.D.">Ph.D.</option>
+        </select><br><br>
+
+        <!-- Skills (checkboxes) -->
+        <label for="skills">Skills:</label>
+        <input type="checkbox" id="java" name="skills" value="Java">
+        <label for="java">Java</label>
+        <input type="checkbox" id="python" name="skills" value="Python">
+        <label for="python">Python</label>
+        <input type="checkbox" id="csharp" name="skills" value="C#">
+        <label for="csharp">C#</label>
+        <!-- Add more skills as needed -->
+        <br><br>
+
+        <!-- Experience -->
+        <label for="experience">Experience (in years):</label>
+        <input type="number" id="experience" name="experience" required><br><br>
+
+        <!-- Upload PDF -->
+        <input type="file" id="pdfFileInput" accept=".pdf">
+        <button onclick="parsePDF()">Parse PDF</button>
+        <div id="parsedText"></div>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+
+    </div>
+
+</body>
+
+</html>
