@@ -7,6 +7,9 @@
     <title>ATS System Login</title>
     <link rel="stylesheet" href="s1style.css">
     <script src="s1.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
+
 </head>
 
 <body>
@@ -24,14 +27,16 @@
             <input type="password" id="password" placeholder="Enter password">
             <input type="checkbox" id="rememberMe"> Remember me
             <div class="bottom">
-                <input type="submit" value="Log In" disabled>
+                <input id="login" type="submit" value="Log In" >
             </div>
-                <a id="fp" href="#">Forgot Password?</a>
+            <h2 class="register"> Don't have an account? <span id="register"> Register</span></h2>
+                 <a style="padding: 5px;" id="fp" href="#">Forgot Password?</a>
                 <p class="error-message"></p>
             
         </form>
     </div>
 
+    
    
 </body>
 

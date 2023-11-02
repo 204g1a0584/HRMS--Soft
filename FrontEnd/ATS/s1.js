@@ -1,87 +1,80 @@
-const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const loginButton = document.querySelector('input[type="submit"]');
-        const errorMessage = document.querySelector('.error-message');
+// Add this part to initialize Firebase and Firestore
 
-        emailInput.addEventListener('input', checkInputs);
-        passwordInput.addEventListener('input', checkInputs);
 
-        function checkInputs() {
-            if (emailInput.value && passwordInput.value) {
-                loginButton.disabled = false;
-            } else {
-                loginButton.disabled = true;
-            }
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            if (!emailInput.value || !passwordInput.value) {
-                errorMessage.textContent = 'Please fill in all fields.';
-            } else {
-                errorMessage.textContent = '';
-                // Here you can add logic to authenticate the user
-                console.log('User authenticated');
-            }
-        });
-
-        // <script type="module">
+const firebaseConfig = {
+    apiKey: "your-api-key",
+    authDomain: "your-auth-domain",
+    projectId: "your-project-id",
+    storageBucket: "your-storage-bucket",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+  };
   
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        
-            const firebaseConfig = {
-        apiKey: "AIzaSyAQAJzgluB3sun7KXpjf71M3gCGYEucwNI",
-        authDomain: "fir-tutorial-7a93c.firebaseapp.com",
-        databaseURL: "https://fir-tutorial-7a93c-default-rtdb.firebaseio.com",
-        projectId: "fir-tutorial-7a93c",
-        storageBucket: "fir-tutorial-7a93c.appspot.com",
-        messagingSenderId: "311927778551",
-        appId: "1:311927778551:web:511665bd57fb0cba0937f2"
-      };
-        
-              // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-        
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";     
-        
-            //listen for submit event//(1)
-            document
-              .getElementById('registrationform')
-              .addEventListener('submit', formSubmit);
-        
-            //Submit form(2)
-            function formSubmit(e) {
-              e.preventDefault();
-              // Get Values from the DOM
-              let email = document.querySelector('#email').value;
-              let password = document.querySelector('#password').value;
-              let rememberMe = document.querySelector('#rememberMe').value;
-        
-              //send message values(3)
-              sendMessage(email, password,rememberMe);
-            }
-        
-            //Send Message to Firebase(4)
-            function sendMessage(email, password,rememberMe) {
-              const database = getDatabase();
-        
-              set(ref(database, 'users/' + Math.floor(Math.random() * 10000000)), {
-                
-                email: email,
-                password: password,
-                rememberMe:rememberMe
-              }).then(() => {
-                  //Show Alert Message(5)
-               document.querySelector('.alert').style.display = 'block';
-                //Hide Alert Message After Seven Seconds(6)
-               setTimeout(function () {
-               document.querySelector('.alert').style.display = 'none';
-               }, 7000);
-               document.getElementById('registrationform').reset();
-              }).catch((error) => {
-                alert(error)
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  
+  // Existing code - window.onload and your functions
+  window.onload = function() {
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const loginButton = document.getElementById('login');
+      const form = document.getElementById('loginForm');
+      const errorMessage = document.querySelector('.error-message');
+  
+      // Function to check if email and password fields are filled
+      // Function to check if email and password fields are filled
+function checkFields() {
+    if (emailInput.value.trim() && passwordInput.value.trim()) {
+        loginButton.disabled = false;
+    } else {
+        loginButton.disabled = true;
+    }
+}
+
+  
+      // Add event listeners for input fields
+      emailInput.addEventListener('input', checkFields);
+      passwordInput.addEventListener('input', checkFields);
+  
+      form.addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent form from submitting for demonstration
+  
+          if (!emailInput.value || !passwordInput.value) {
+              errorMessage.textContent = "Please enter both email and password.";
+          } else {
+              errorMessage.textContent = ""; // Clear error message
+              // Here you can add the code to handle form submission, like making an API call or redirecting the user.
+          }
+      });
+  }
+  
+  function register() {
+      alert('Registration function called.'); // Placeholder functionality for registration
+  }
+  
+  // Your new code to send data to Firebase Firestore without disrupting the old functions
+  form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting for demonstration
+  
+      if (!emailInput.value || !passwordInput.value) {
+          errorMessage.textContent = "Please enter both email and password.";
+      } else {
+          // Define the data you want to send to Firestore
+          const data = {
+              email: emailInput.value,
+              password: passwordInput.value
+          };
+  
+          // Add the data to Firestore
+          db.collection('your-collection-name').add(data)
+              .then(function(docRef) {
+                  console.log("Document written with ID: ", docRef.id);
+                  errorMessage.textContent = ""; // Clear error message
               })
-            }
- {/* </script> */}
-    
+              .catch(function(error) {
+                  console.error("Error adding document: ", error);
+                  errorMessage.textContent = "Error adding data to Firebase";
+              });
+      }
+  });
+  
