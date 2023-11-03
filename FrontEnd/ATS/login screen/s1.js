@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Handle form submission
-document.getElementById('loginForm').addEventListener('submit', function (event) {
+document.getElementById('loginForm').addEventListener('login', function (event) {
     event.preventDefault(); // Prevent form from submitting for demonstration
 
     const emailInput = document.getElementById('email');
