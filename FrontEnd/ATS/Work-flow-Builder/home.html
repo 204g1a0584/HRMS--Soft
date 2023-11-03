@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Workflow Builder</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><img style="width: 15%;" src="logo.png" alt=""></div>
+        <div class="nav-items">
+            <a href="#">Home</a>
+            <a href="#">Workflows</a>
+            <a href="#">Templates</a>
+            <a href="#">Settings</a>
+        </div>
+    </div>
+
+    <div class="workflow-container">
+        <div class="workflow-sidebar">
+            <h4>Available Workflow Steps</h4>
+            <div class="step" draggable="true">
+                <label>Name of Candidate:</label>
+                <input type="text" id="candidate-name">
+            </div>
+            <div class="step" draggable="true">
+                <label>Assigned HR:</label>
+                <input type="text" id="assigned-hr">
+            </div>
+            <div class="step" draggable="true">
+                <label>Comments:</label>
+                <textarea id="comments"></textarea>
+            </div>
+        </div>
+        <div class="workflow-main">
+            <div class="toolbar">
+                <button>Save</button>
+                <button>Undo</button>
+                <button>Redo</button>
+                <button>Preview</button>
+            </div>
+            <div class="workflow-canvas" id="canvas">
+                <!-- draggable steps will be here -->
+                <h1>workflow-canvas</h1>
+            </div>
+        </div>
+        <div class="properties-panel">
+            <h4>Properties Panel</h4>
+            <label>Step Name:</label>
+            <input type="text">
+            <label>Step Description:</label>
+            <textarea></textarea>
+            <label>Step Configuration:</label>
+            <textarea></textarea>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
