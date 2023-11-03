@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
@@ -8,71 +9,111 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f4f4f4;
-    border-bottom: 1px solid #ddd;
+    padding: 10px 50px;
+    background-color: #333;
+    color: white;
 }
 
-.nav-items button {
-    margin-left: 10px;
+.navbar .logo img {
+    width: 100px;
+    height: auto;
+}
+
+.nav-items {
+    display: flex;
+    align-items: center;
+}
+
+.nav-items a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.nav-items a:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .workflow-container {
     display: flex;
+    justify-content: space-between;
+    margin: 20px;
     padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.workflow-sidebar {
+.leftside, .properties-panel {
     width: 20%;
+    background: #f9f9f9;
     padding: 20px;
-    border-right: 1px solid #ddd;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.leftside input[type="text"], .leftside button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.leftside button {
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.leftside button:hover {
+    background-color: #2980b9;
 }
 
 .workflow-main {
-    flex: 1;
-    display: flex;
-    padding: 20px 20px 20px 0;
-    flex-direction: column;
-    border-right: 1px solid #ddd;
-}
-
-.properties-panel {
-    width: 25%;
-    padding: 20px;
-}
-
-.workflow-canvas {
-    flex: 1;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    position: relative;
+    width: 55%;
+    padding: 0 20px;
 }
 
 .toolbar {
     display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
 }
 
-.toolbar button{
-    width: 20%;
-    height: 3vh;
-    box-shadow: inset;    
+.toolbar button {
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    transition: 0.3s;
 }
 
-.properties-panel input, .properties-panel textarea {
+.toolbar button:hover {
+    background-color: #2980b9;
+}
+
+#myholder {
+    margin-top: 20px;
+    background-color: #e6e6e6;
+    border: 1px solid #ccc;
+    height: 600px;
+    position: relative;
+    overflow: auto;
+}
+
+.properties-panel input[type="text"], .properties-panel textarea {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
-.step {
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #eaeaea;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
-    cursor: pointer;
-    user-select: none; /* Prevents text selection during drag */
+    border-radius: 5px;
 }
