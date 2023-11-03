@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.css" />
     <link rel="stylesheet" href="style.css">
+    
     <title>Workflow Builder</title>
 </head>
 
@@ -26,12 +27,16 @@
             <input type="text" placeholder="block name" id="name" />
             <button onclick="addblock()">Add</button>
         </div>
-        <div id="myholder"></div>
-         <div class="canvas-buttons">
+        <div class="middle">
+            <div id="myholder"></div>
+            <div class="canvas-buttons">
             <button>Button1</button>
             <button>Button2</button>
             <button>Button3</button>
         </div>
+
+        </div>
+        
         <div class="properties-panel">
             <h4>Properties Panel</h4>
             <label>Step Name:</label>
@@ -50,56 +55,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.1/backbone.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.js"></script>
     <!-- code -->
+    <script src="script.js"></script>
     <script>
-        var namespace = joint.shapes;
-        var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
-        var paper = new joint.dia.Paper({
-            el: document.getElementById('myholder'),
-            model: graph,
-            width: 600,
-            height: 600,
-            gridSize: 10,
-            drawGrid: true,
-            background: {
-                color: 'lightblue'
-            },
-            cellViewNamespace: namespace
-        });
-
-        function addblock() {
-            name = document.getElementById("name").value;
-            var rect = new joint.shapes.standard.Rectangle();
-            rect.position(0, 0);
-            rect.resize(100, 40);
-            rect.attr({
-                body: {
-                    fill: 'blue'
-                },
-                label: {
-                    text: name,
-                    fill: 'white'
-                }
-            });
-            rect.set('stepDescription', '');
-            rect.set('stepConfig', '');
-            rect.addTo(graph);
-        }
-
-        let selectedElement;
-
-        paper.on('element:pointerdblclick', function(elementView, evt) {
-            selectedElement = elementView.model;
-            document.getElementById('stepNameInput').value = selectedElement.attr('label/text');
-            document.getElementById('stepDescriptionInput').value = selectedElement.get('stepDescription');
-            document.getElementById('stepConfigInput').value = selectedElement.get('stepConfig');
-        });
-
-        function updateBlock() {
-            selectedElement.attr('label/text', document.getElementById('stepNameInput').value);
-            selectedElement.set('stepDescription', document.getElementById('stepDescriptionInput').value);
-            selectedElement.set('stepConfig', document.getElementById('stepConfigInput').value);
-        }
-
+      
     </script>
 </body>
 

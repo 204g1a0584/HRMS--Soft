@@ -37,6 +37,10 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
+.middle{
+    display: flex;
+    flex-direction: column;
+}
 .workflow-container {
     display: flex;
     justify-content: space-between;
@@ -117,4 +121,9 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-
+.canvas-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+}
