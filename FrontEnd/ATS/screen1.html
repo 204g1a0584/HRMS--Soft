@@ -7,9 +7,6 @@
     <title>ATS System Login</title>
     <link rel="stylesheet" href="s1style.css">
     <script src="s1.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
- <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
-
 </head>
 
 <body>
@@ -27,17 +24,56 @@
             <input type="password" id="password" placeholder="Enter password">
             <input type="checkbox" id="rememberMe"> Remember me
             <div class="bottom">
-                <input id="login" type="submit" value="Log In" >
+                <input id="login" type="submit" value="Log In" disabled="true">
             </div>
             <h2 class="register"> Don't have an account? <span id="register"> Register</span></h2>
-                 <a style="padding: 5px;" id="fp" href="#">Forgot Password?</a>
-                <p class="error-message"></p>
-            
+            <a style="padding: 5px;" id="fp" href="#">Forgot Password?</a>
+            <p class="alert-message"></p>
         </form>
     </div>
 
-    
-   
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js";
+
+        const firebaseConfig = {
+    apiKey: "AIzaSyAQAJzgluB3sun7KXpjf71M3gCGYEucwNI",
+    authDomain: "fir-tutorial-7a93c.firebaseapp.com",
+    databaseURL: "https://fir-tutorial-7a93c-default-rtdb.firebaseio.com",
+    projectId: "fir-tutorial-7a93c",
+    storageBucket: "fir-tutorial-7a93c.appspot.com",
+    messagingSenderId: "311927778551",
+    appId: "1:311927778551:web:511665bd57fb0cba0937f2"
+  };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase();
+
+        // Listen for submit event
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.querySelector('#email').value;
+            const password = document.querySelector('#password').value;
+            const rememberMe = document.querySelector('#rememberMe').checked;
+
+            const userData = {
+                email: email,
+                password: password,
+                rememberMe: rememberMe
+            };
+
+            const uniqueKey = Date.now();
+            // Push user data to Firebase
+            const userRef = ref(database, 'Logins' + uniqueKey);
+            set(userRef, userData).then(() => {
+                document.querySelector('.alert-message').textContent = "Logged in successfully";
+                document.getElementById('loginForm').reset();
+            }).catch((error) => {
+                alert("Unsuccessful login: " + error);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
