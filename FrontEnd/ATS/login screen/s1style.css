@@ -93,3 +93,8 @@
             color: red;
             margin-top: 10px;
         }
+
+        .alert-message{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color:red;
+        }
