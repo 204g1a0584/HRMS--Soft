@@ -21,19 +21,26 @@
     </div>
 
     <div class="workflow-container">
+               
         <div class="leftside">
             <input type="text" placeholder="block name" id="name" />
             <button onclick="addblock()">Add</button>
         </div>
         <div id="myholder"></div>
+         <div class="canvas-buttons">
+            <button>Button1</button>
+            <button>Button2</button>
+            <button>Button3</button>
+        </div>
         <div class="properties-panel">
             <h4>Properties Panel</h4>
             <label>Step Name:</label>
-            <input type="text">
+            <input type="text" id="stepNameInput">
             <label>Step Description:</label>
-            <textarea></textarea>
+            <textarea id="stepDescriptionInput"></textarea>
             <label>Step Configuration:</label>
-            <textarea></textarea>
+            <textarea id="stepConfigInput"></textarea>
+            <button onclick="updateBlock()">Update Block</button>
         </div>
     </div>
 
@@ -73,46 +80,26 @@
                     fill: 'white'
                 }
             });
+            rect.set('stepDescription', '');
+            rect.set('stepConfig', '');
             rect.addTo(graph);
         }
 
-        function linkblocks(s, d) {
-            var link = new joint.shapes.standard.Link();
-            link.source(s);
-            link.target(d);
-            link.addTo(graph);
+        let selectedElement;
+
+        paper.on('element:pointerdblclick', function(elementView, evt) {
+            selectedElement = elementView.model;
+            document.getElementById('stepNameInput').value = selectedElement.attr('label/text');
+            document.getElementById('stepDescriptionInput').value = selectedElement.get('stepDescription');
+            document.getElementById('stepConfigInput').value = selectedElement.get('stepConfig');
+        });
+
+        function updateBlock() {
+            selectedElement.attr('label/text', document.getElementById('stepNameInput').value);
+            selectedElement.set('stepDescription', document.getElementById('stepDescriptionInput').value);
+            selectedElement.set('stepConfig', document.getElementById('stepConfigInput').value);
         }
 
-        paper.on('blank:pointerdown', function(evt, x, y) {
-            var linkView = this.getDefaultLink()
-                .set({
-                    'source': { x: x, y: y },
-                    'target': { x: x, y: y }
-                })
-                .addTo(this.model)
-                .findView(this);
-            linkView.startArrowheadMove('target');
-            $(document).on({
-                'mousemove.example': onDrag,
-                'mouseup.example': onDragEnd
-            }, {
-                view: linkView,
-                paper: this
-            });
-
-            function onDrag(evt) {
-                var p = evt.data.paper.snapToGrid({
-                    x: evt.clientX,
-                    y: evt.clientY
-                });
-                evt.data.view.pointermove(evt, p.x, p.y);
-            }
-
-            function onDragEnd(evt) {
-                evt.data.view.pointerup(evt);
-                $(document).off('.example');
-            }
-        });
     </script>
 </body>
 
