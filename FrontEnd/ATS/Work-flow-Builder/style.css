@@ -40,6 +40,7 @@ body {
 .middle{
     display: flex;
     flex-direction: column;
+    padding: 3px;
 }
 .workflow-container {
     display: flex;
@@ -61,7 +62,7 @@ body {
 
 .leftside input[type="text"], .leftside button {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     margin-top: 10px;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -91,7 +92,7 @@ body {
     background: #fff;
 }
 
-.toolbar button {
+ button {
     padding: 7px 15px;
     border: none;
     border-radius: 5px;
@@ -101,7 +102,7 @@ body {
     transition: 0.3s;
 }
 
-.toolbar button:hover {
+button:hover {
     background-color: #2980b9;
 }
 
