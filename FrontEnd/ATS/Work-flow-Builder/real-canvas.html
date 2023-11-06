@@ -32,11 +32,12 @@
             <h3>Drop the blocks here</h3>
             <div id="myholder"></div>
             <div class="canvas-buttons">
-                <button>Save</button>
+                <button onclick="exportGraph()">Save</button>
                 <button>Undo</button>
                 <button>Redo</button>
                 <button>Preview</button>
-                
+                <input type="file" id="loadFile" accept=".json"> 
+                <button onclick="loadGraph()">Load</button>
             </div>
 
         </div>
@@ -60,9 +61,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.js"></script>
     <!-- code -->
     <script src="script.js"></script>
-    <script>
-
-    </script>
+    
 </body>
 
 </html>

@@ -93,3 +93,56 @@ paper.on('blank:pointerdown', function(evt, x, y) {
     }
 
 });
+
+// Function to export the graph state to a JSON file
+function exportGraph() {
+    const cells = graph.getCells();
+    const jsonData = JSON.stringify(cells);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Create a download link for the JSON file
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "workflow.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+// Function to load a saved graph state from a JSON file
+// Function to load a saved graph state from a JSON file
+function loadGraph() {
+    const fileInput = document.getElementById("loadFile");
+    fileInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const jsonData = event.target.result;
+            const data = JSON.parse(jsonData);
+            // Clear the existing graph
+            graph.clear();
+            // Add cells from the loaded data
+            graph.fromJSON({ cells: data });
+        };
+        reader.readAsText(file);
+    });
+    fileInput.click();
+}
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Delete") {
+        deleteSelectedBlock();
+    }
+});
+
+
+function deleteSelectedBlock() {
+    if (selectedElement) {
+        selectedElement.remove(); // Remove the selected element from the graph
+        selectedElement = undefined; // Clear the selected element
+    } else {
+        // Handle the case when no element is selected (optional)
+        console.error("No element is selected for deletion.");
+    }
+}
