@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" /> 
+    <source>                                                                                         
+    <!-- External CSS file -->
+    <title>Flow Graph</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><img style="width: 15%;" src="logo.png" alt=""></div>
+        <div class="nav-items">
+            <a href="#">Home</a>
+            <a href="#">Workflows</a>
+            <a href="#">Templates</a>
+            <a href="#">Settings</a>
+        </div>
+    </div>
+
+    <div class="workflow-container">
+        <div class="leftside">
+            <h2>Available Workflow Steps</h2>
+            <!-- Add your form fields here -->
+        </div>
+        <div class="middle">
+            <h3>Drop the blocks here</h3>
+            <div id="myholder" class="flow-container">
+                <div class="block" style="top: 50px; left: 50px;">
+                    <p>Name: Step 1</p>
+                    <p>Assigned Resource Person: Value 1</p>
+                    <p>Comments/Feedback: Value 2</p>
+                </div>
+                <div class="block" style="top: 50px; left: 300px;">
+                    <p>Name: Step 2</p>
+                    <p>Assigned Resource Person: Value 1</p>
+                    <p>Comments/Feedback: Value 2</p>
+                </div>
+                <div class="line" style="top: 160px; left: 100px;"></div>
+            </div>
+        </div>
+        <div class="properties-panel">
+            <h4>Properties Panel</h4>
+            <label>Step Name:</label>
+            <input type="text" id="stepNameInput">
+            <label>Step Description:</label>
+            <textarea id="stepDescriptionInput"></textarea>
+            <label>Step Configuration:</label>
+            <textarea id="stepConfigInput"></textarea>
+            <button onclick="updateBlock()">Update Block</button>
+        </div>
+    </div>
+
+    <!-- External JavaScript file -->
+    <script src="script.js"></script>
+</body>
+
+</html>
