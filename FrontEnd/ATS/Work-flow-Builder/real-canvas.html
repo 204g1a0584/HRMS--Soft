@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.css" />
     <link rel="stylesheet" href="style.css">
-    
+
     <title>Workflow Builder</title>
 </head>
 
@@ -22,21 +22,25 @@
     </div>
 
     <div class="workflow-container">
-               
+
         <div class="leftside">
+            <h2>Available Workflow Steps</h2>
             <input type="text" placeholder="block name" id="name" />
             <button onclick="addblock()">Add</button>
         </div>
         <div class="middle">
+            <h3>Drop the blocks here</h3>
             <div id="myholder"></div>
             <div class="canvas-buttons">
-            <button>Button1</button>
-            <button>Button2</button>
-            <button>Button3</button>
-        </div>
+                <button>Save</button>
+                <button>Undo</button>
+                <button>Redo</button>
+                <button>Preview</button>
+                
+            </div>
 
         </div>
-        
+
         <div class="properties-panel">
             <h4>Properties Panel</h4>
             <label>Step Name:</label>
@@ -57,7 +61,7 @@
     <!-- code -->
     <script src="script.js"></script>
     <script>
-      
+
     </script>
 </body>
 
