@@ -52,6 +52,26 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+
+.leftside{
+    display: flex;
+    flex-direction: column;
+}
+
+.leftside .av-wf,.blocks {
+    height: 30%;
+    /* border:2px solid #3498db; */
+}
+
+.av-wf li{
+    list-style: none;
+    padding: 2px;
+    cursor: pointer;
+    font-family: 'sans-serif';
+    font-size: large;
+    font-style: var();
+}
+
 .leftside, .properties-panel {
     width: 20%;
     background: #f9f9f9;

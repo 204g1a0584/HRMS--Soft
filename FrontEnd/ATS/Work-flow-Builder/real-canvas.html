@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.css" />
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <title>Workflow Builder</title>
 </head>
@@ -24,20 +26,31 @@
     <div class="workflow-container">
 
         <div class="leftside">
-            <h2>Available Workflow Steps</h2>
-            <input type="text" placeholder="block name" id="name" />
-            <button onclick="addblock()">Add</button>
+            <div class="wf">
+                <h2>Create new Workflow</h2>
+                <input type="text" placeholder="type in workflow name" id="Workflow_name" />
+                <button onclick="createWorkflow()">Create</button>
+            </div>
+            <div class="av-wf">
+                <h3>Workflows Available</h3>
+                <ul> </ul>
+            </div>
+            <div class="blocks">
+                <h2>Add Step</h2>
+                <input type="text" placeholder="Step name" id="block_name" />
+                <button onclick="addblock()">Add</button>
+            </div>
         </div>
+
         <div class="middle">
             <h3>Drop the blocks here</h3>
             <div id="myholder"></div>
+            <h2> Current Workflow : </h2> <span id="cwf_name"> </span>
             <div class="canvas-buttons">
-                <button onclick="exportGraph()">Save</button>
+                <button onclick="saveToFirebase()">Save</button>
                 <button>Undo</button>
                 <button>Redo</button>
                 <button>Preview</button>
-                <input type="file" id="loadFile" accept=".json"> 
-                <button onclick="loadGraph()">Load</button>
             </div>
 
         </div>
@@ -46,9 +59,9 @@
             <h4>Properties Panel</h4>
             <label>Step Name:</label>
             <input type="text" id="stepNameInput">
-            <label>Step Description:</label>
+            <label>Assigned Person:</label>
             <textarea id="stepDescriptionInput"></textarea>
-            <label>Step Configuration:</label>
+            <label>Description:</label>
             <textarea id="stepConfigInput"></textarea>
             <button onclick="updateBlock()">Update Block</button>
         </div>
@@ -60,8 +73,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.1/backbone.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.7.5/joint.js"></script>
     <!-- code -->
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js";
+
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQAJzgluB3sun7KXpjf71M3gCGYEucwNI",
+            authDomain: "fir-tutorial-7a93c.firebaseapp.com",
+            databaseURL: "https://fir-tutorial-7a93c-default-rtdb.firebaseio.com",
+            projectId: "fir-tutorial-7a93c",
+            storageBucket: "fir-tutorial-7a93c.appspot.com",
+            messagingSenderId: "311927778551",
+            appId: "1:311927778551:web:511665bd57fb0cba0937f2"
+        };
+
+        export async function getWorkflowData(workflowName) {
+            const workflowRef = ref(database, 'workflows/' + workflowName);
+
+            try {
+                const snapshot = await get(workflowRef);
+                if (snapshot.exists()) {
+                    const workflowData = snapshot.val();
+                    return workflowData.flow;
+                } else {
+                    console.error("Workflow data not found");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error getting data:", error);
+                return null;
+            }
+        }
+
+        let workflowRef;
+
+        export function initializeFirebase() {
+            database = getDatabase();
+        }
+
+        export function setWorkflowRef(workflowName) {
+            workflowRef = ref(database, workflowName);
+        }
+
+        export function sendMessage(workflowName) {
+            if (workflowName) {
+                const files = 'your_graph_data_here'; // Replace with your actual graph data
+                console.log('Selected Workflow:', workflowName);
+
+                set(workflowRef, {
+                    name: workflowName,
+                    flow: files
+                })
+                    .then(() => {
+                        alert('Data saved successfully');
+                    })
+                    .catch((error) => {
+                        alert('Error: ' + error);
+                    });
+            } else {
+                console.log('Selected Workflow is not defined send message');
+            }
+        }
+
+        function addClickListenersToWorkflowItems() {
+            const workflowListItems = document.querySelectorAll("#workflow-list li");
+          
+
+            workflowListItems.forEach((item) => {
+                item.addEventListener('click', function () {
+                    workflowListItems.forEach((item) => {
+                        item.classList.remove("selected");
+                    });
+
+                    const workflowName = item.textContent;
+                    displayWorkflow(workflowName);
+
+                    item.classList.add("selected");
+                    selectedWorkflow = workflowName;
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            addClickListenersToWorkflowItems();
+        });
+    </script>
     <script src="script.js"></script>
-    
+
+
 </body>
 
 </html>

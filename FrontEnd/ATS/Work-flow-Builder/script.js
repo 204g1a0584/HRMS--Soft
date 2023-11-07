@@ -1,7 +1,6 @@
+// Define global variables
 var namespace = joint.shapes;
-
 var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
-
 var paper = new joint.dia.Paper({
     el: document.getElementById('myholder'),
     model: graph,
@@ -10,59 +9,45 @@ var paper = new joint.dia.Paper({
     gridSize: 10,
     drawGrid: true,
     background: {
-        color: 'lightblue'
+        color: 'lightblue',
     },
-    cellViewNamespace: namespace
+    cellViewNamespace: namespace,
 });
 
-function addblock(){
-    name=document.getElementById("name").value;
+var currentWorkflowName = ''; // Track the current workflow
+
+// Function to add a block to the graph
+function addblock() {
+    var block_name = document.getElementById("block_name").value;
+    if (block_name.trim() === "") {
+        alert("Please enter a valid block name.");
+        return;
+    }
+
     var rect = new joint.shapes.standard.Rectangle();
     rect.position(0, 0);
-    rect.resize(100, 40);
+    rect.resize(200, 80);
     rect.attr({
         body: {
-            fill: 'blue'
+            fill: 'green',
         },
         label: {
-            text: name,
-            fill: 'white'
-        }
+            text: block_name,
+            fill: 'white',
+        },
     });
     rect.addTo(graph);
 }
 
-function linkblocks(s,d){
-    var link = new joint.shapes.standard.Link();
-    link.source(s);
-    link.target(d);
-    link.addTo(graph);
-}
-
-let selectedElement;
-
-paper.on('element:pointerdblclick', function(elementView, evt) {
-    selectedElement = elementView.model;
-    document.getElementById('stepNameInput').value = selectedElement.attr('label/text');
-    document.getElementById('stepDescriptionInput').value = selectedElement.get('stepDescription');
-    document.getElementById('stepConfigInput').value = selectedElement.get('stepConfig');
-});
-
-function updateBlock() {
-    selectedElement.attr('label/text', document.getElementById('stepNameInput').value);
-    selectedElement.set('stepDescription', document.getElementById('stepDescriptionInput').value);
-    selectedElement.set('stepConfig', document.getElementById('stepConfigInput').value);
-}
-
-paper.on('blank:pointerdown', function(evt, x, y) {
+paper.on('blank:pointerdown', function (evt, x, y) {
 
     var linkView = this.getDefaultLink()
-            .set({
-                'source': { x: x, y: y },
-                'target': { x: x, y: y }
-            })
-            .addTo(this.model)
-            .findView(this);
+        .set({
+            'source': { x: x, y: y },
+            'target': { x: x, y: y }
+        })
+        .addTo(this.model)
+        .findView(this);
 
     // initiate the linkView arrowhead movement
     linkView.startArrowheadMove('target');
@@ -75,6 +60,7 @@ paper.on('blank:pointerdown', function(evt, x, y) {
         view: linkView,
         paper: this
     });
+
 
     function onDrag(evt) {
         // transform client to paper coordinates
@@ -94,55 +80,88 @@ paper.on('blank:pointerdown', function(evt, x, y) {
 
 });
 
-// Function to export the graph state to a JSON file
-function exportGraph() {
-    const cells = graph.getCells();
-    const jsonData = JSON.stringify(cells);
-    const blob = new Blob([jsonData], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
 
-    // Create a download link for the JSON file
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "workflow.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}
+// Function to create a new workflow and clear the graph
+function createWorkflow() {
+    var workflowName = document.getElementById("Workflow_name").value;
+    if (workflowName.trim() === "") {
+        alert("Please enter a valid workflow name.");
+        return;
+    }
 
-// Function to load a saved graph state from a JSON file
-// Function to load a saved graph state from a JSON file
-function loadGraph() {
-    const fileInput = document.getElementById("loadFile");
-    fileInput.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            const jsonData = event.target.result;
-            const data = JSON.parse(jsonData);
-            // Clear the existing graph
-            graph.clear();
-            // Add cells from the loaded data
-            graph.fromJSON({ cells: data });
-        };
-        reader.readAsText(file);
+    // Clear the existing graph
+    graph.clear();
+
+    // Add the workflow name to the list of available workflows
+    var workflowList = document.querySelector(".av-wf ul");
+    var newWorkflow = document.createElement("li");
+    newWorkflow.textContent = workflowName;
+    newWorkflow.addEventListener("click", function () {
+        openWorkflow(workflowName);
     });
-    fileInput.click();
+    workflowList.appendChild(newWorkflow);
+
+    // Set the current workflow name
+    currentWorkflowName = workflowName;
+    document.getElementById("cwf_name").textContent = workflowName;
+
+    // Clear the input field
+    document.getElementById("Workflow_name").value = "";
 }
 
+// Function to update the properties of a selected block
+function updateBlock() {
+    if (selectedElement) {
+        selectedElement.attr('label/text', document.getElementById('stepNameInput').value);
+        selectedElement.set('stepDescription', document.getElementById('stepDescriptionInput').value);
+        selectedElement.set('stepConfig', document.getElementById('stepConfigInput').value);
+    }
+}
+
+// Function to delete the selected block
+function deleteSelectedBlock() {
+    if (selectedElement) {
+        selectedElement.remove();
+        selectedElement = undefined;
+    } else {
+        console.error("No element is selected for deletion.");
+    }
+}
+
+// Event listener for double-clicking on an element to edit its properties
+let selectedElement;
+paper.on('element:pointerdblclick', function (elementView, evt) {
+    selectedElement = elementView.model;
+    document.getElementById('stepNameInput').value = selectedElement.attr('label/text');
+    document.getElementById('stepDescriptionInput').value = selectedElement.get('stepDescription');
+    document.getElementById('stepConfigInput').value = selectedElement.get('stepConfig');
+});
+
+// Event listener for pressing the Delete key to delete the selected block
 document.addEventListener("keydown", function (e) {
     if (e.key === "Delete") {
         deleteSelectedBlock();
     }
 });
 
+// Function to open a specific workflow
+function openWorkflow(workflowName) {
+    // Set the current workflow name
+    currentWorkflowName = workflowName;
+    document.getElementById("cwf_name").textContent = workflowName;
 
-function deleteSelectedBlock() {
-    if (selectedElement) {
-        selectedElement.remove(); // Remove the selected element from the graph
-        selectedElement = undefined; // Clear the selected element
-    } else {
-        // Handle the case when no element is selected (optional)
-        console.error("No element is selected for deletion.");
+    // Load the workflow graph
+    loadGraph();
+}
+
+
+
+// Function to load a saved graph state from a JSON file
+function loadGraph() {
+    const jsonData = localStorage.getItem(currentWorkflowName);
+    if (jsonData) {
+        const data = JSON.parse(jsonData);
+        graph.fromJSON({ cells: data });
     }
 }
+
